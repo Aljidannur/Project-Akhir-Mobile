@@ -10,8 +10,45 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List sepatu = [
+    {
+      'title': 'Nike Ardilla',
+      'description': 'askldjaskld',
+      'price': 100000,
+      'imagePath': 'assets/images/nike1.png'
+    },
+    {
+      'title': 'Nike Ardilla',
+      'description': 'askldjaskld',
+      'price': 100000,
+      'imagePath': 'assets/images/nike2.png'
+    },
+  ];
+
+  String kataKunci = '';
+
+  void onSearch(String text) {
+    setState(() {
+      kataKunci = text;
+    });
+  }
+
+  List searchedShoes() {
+    if (kataKunci.isNotEmpty) {
+      return sepatu
+        .where((element) => (element['title'] as String).toLowerCase().contains(kataKunci.toLowerCase()))
+        .toList();
+    }
+
+    return sepatu;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final dataSepatuYangDicari = searchedShoes();
+
+    print(dataSepatuYangDicari.toString());
+
     return SingleChildScrollView(
       child: SafeArea(
         child: Column(
@@ -21,6 +58,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
+                onChanged: onSearch,
                 decoration: InputDecoration(
                   hintText: 'Cari Sepatu Mu Disini Po...',
                   prefixIcon: Icon(Icons.search),
@@ -49,52 +87,51 @@ class _HomePageState extends State<HomePage> {
                     child: TabBarView( 
                       children: [
                         // Konten untuk tab Nike
-                        ListView(
+                        ListView.builder(
                           padding: EdgeInsets.all(10),
                           shrinkWrap: true,
-                          children: [
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike2.png'),
-                            ShoesCard(image: 'assets/images/nike3.png'),
-                            ShoesCard(image: 'assets/images/nike4.png'),
-                            ShoesCard(image: 'assets/images/nike5.png'),
-                            ShoesCard(image: 'assets/images/nike6.png'),
-                            ShoesCard(image: 'assets/images/nike7.png'),
-                            ShoesCard(image: 'assets/images/yeezy1.png'),
-                          ],
+                          itemCount: dataSepatuYangDicari.length,
+                          itemBuilder: (context, index) => ShoesCard(
+                            image: dataSepatuYangDicari[index]['imagePath'],
+                            title: dataSepatuYangDicari[index]['title'],
+                            description: dataSepatuYangDicari[index]['description'],
+                            price: dataSepatuYangDicari[index]['price'],
+                          ),
                         ),
                         // Konten untuk tab Adidas
-                        ListView(
-                          padding: EdgeInsets.all(10),
-                          shrinkWrap: true,
-                          children: [
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                          ],
-                        ),
+                        Text('Adidas'),
+                        // ListView(
+                        //   padding: EdgeInsets.all(10),
+                        //   shrinkWrap: true,
+                        //   children: [
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //   ],
+                        // ),
                         // Konten untuk tab Vans
-                        ListView(
-                          padding: EdgeInsets.all(10),
-                          shrinkWrap: true,
-                          children: [
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                            ShoesCard(image: 'assets/images/nike1.png'),
-                          ],
-                        ),
+                        Text('Vans'),
+                        // ListView(
+                        //   padding: EdgeInsets.all(10),
+                        //   shrinkWrap: true,
+                        //   children: [
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //     ShoesCard(image: 'assets/images/nike1.png'),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
